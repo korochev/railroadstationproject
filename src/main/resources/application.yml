@@ -1,0 +1,43 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+
+spring:
+  main:
+    banner-mode: off
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5437/railroad_station_db
+    username: root
+    password: root
+
+#    driver-class-name: oracle.jdbc.OracleDriver
+#    url: jdbc:oracle:thin:@158.160.30.72:1521:railStateDb
+#    username: system
+#    password: Oracle_123
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+      #ddl-auto: update
+    properties:
+      hibernate:
+#        dialect: org.hibernate.dialect.OracleDialect
+
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        event:
+          merge.entity_copy_observer: allow
+        format_sql: true
+        jdbc:
+          time_zone: Europe/Moscow
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000
+      refresh-token:
+        expiration: 86400000
