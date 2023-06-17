@@ -31,7 +31,7 @@ public class Railway {
     @NotNull
     private Integer nom;
 
-    @Schema(description = "Сущность станционной модели")
+    @Schema(hidden = true)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "station_model_id")
     @JsonBackReference

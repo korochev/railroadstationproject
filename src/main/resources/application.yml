@@ -4,15 +4,20 @@ server:
     include-message: always
 
 spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    contexts: dev
+
   main:
     banner-mode: off
   profiles:
     active: dev
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5437/railroad_station_db
-    username: root
-    password: root
+    url: jdbc:postgresql://localhost:5432/railroad_station_db
+    username: postgres
+    password: 12345678
 
 #    driver-class-name: oracle.jdbc.OracleDriver
 #    url: jdbc:oracle:thin:@158.160.30.72:1521:railStateDb
@@ -21,7 +26,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
       #ddl-auto: update
     properties:
       hibernate:

@@ -21,29 +21,29 @@ public class RailwayControllerImpl implements RailwayController {
 
     @Override
     @GetMapping
-    public ResponseEntity<List<Railway>> getAllStationModels() {
+    public ResponseEntity<List<Railway>> getAllRailways() {
 
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(railwayService.getAll());
     }
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<Railway> getStationModel(@PathVariable("id") Long id) throws EntityNotFoundException {
+    public ResponseEntity<Railway> getRailway(@PathVariable("id") Long id) throws EntityNotFoundException {
 
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(railwayService.getById(id));
     }
 
     @Override
     @PostMapping
-    public ResponseEntity<Railway> createStationModel(@RequestBody Railway railway) {
-
+    public ResponseEntity<Railway> createRailway(@RequestBody Railway railway) {
         return new ResponseEntity<>(railwayService.save(railway), HttpStatus.CREATED);
+
     }
 
     @Override
     @PutMapping(value = "/{Id}")
-    public ResponseEntity<Railway> updateStationModel(@RequestBody Railway railway,
-                                                      @PathVariable("Id") Long Id
+    public ResponseEntity<Railway> updateRailway(@RequestBody Railway railway,
+                                                 @PathVariable("Id") Long Id
     ) throws EntityNotFoundException {
 
         return ResponseEntity.ok(railwayService.update(Id, railway));
@@ -51,7 +51,7 @@ public class RailwayControllerImpl implements RailwayController {
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Railway> deleteStationModel(@PathVariable("id") Long id) throws EntityNotFoundException {
+    public ResponseEntity<Railway> deleteRailway(@PathVariable("id") Long id) throws EntityNotFoundException {
 
         return ResponseEntity.ok(railwayService.delete(id));
     }

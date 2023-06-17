@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.project.model.security.AuthenticationRequest;
@@ -28,35 +29,16 @@ import static ru.project.model.security.user.Role.ADMIN;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles({ "test" })
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AuthenticationControllerMockMvcUnitTest {
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
-    private AuthenticationService authenticationService;
-
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private JwtService jwtService;
-
-    private AuthenticationResponse adminToken;
-
-    @BeforeAll
-    void registerUser() {
-        adminToken = authenticationService.register(RegisterRequest.builder()
-                .firstname("Admin")
-                .lastname("Admin")
-                .email("admin@mail.ru")
-                .password("admin")
-                .role(ADMIN)
-                .build()
-        );
-    }
 
     @Test
     void getCargoModelCollection_noAuth_returnsIsForbidden() throws Exception {
@@ -65,8 +47,9 @@ public class AuthenticationControllerMockMvcUnitTest {
 
     @Test
     void getCargoModelCollection_withValidJwtToken_returnsOk() throws Exception {
-        mockMvc.perform(get("/cargo-model")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken.getAccessToken())
+        mockMvc.perform(
+                get("/cargo-model")
+                        .with(SecurityMockMvcRequestPostProcessors.user("Admin").roles("ADMIN"))
         ).andExpect(status().isOk());
     }
 
@@ -91,12 +74,14 @@ public class AuthenticationControllerMockMvcUnitTest {
 
     @Test
     void successAuthentication_WithExistingUser() throws Exception {
-        mockMvc.perform(post("/auth/authenticate")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(AuthenticationRequest.builder()
-                        .email("admin@mail.ru")
-                        .password("admin")
-                        .build()))
+        mockMvc.perform(
+                post("/auth/authenticate")
+                        .with(SecurityMockMvcRequestPostProcessors.user("Admin").roles("ADMIN"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(AuthenticationRequest.builder()
+                                .email("admin@mail.ru")
+                                .password("admin")
+                                .build()))
         ).andExpect(status().isOk());
     }
 
@@ -124,15 +109,17 @@ public class AuthenticationControllerMockMvcUnitTest {
 
     @Test
     void successRegistration_ForNewUser() throws Exception {
-        mockMvc.perform(post("/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(RegisterRequest.builder()
-                        .firstname(RandomStringUtils.random(8, true, false))
-                        .lastname(RandomStringUtils.random(10, true, false))
-                        .email(RandomStringUtils.random(15, true, true))
-                        .password(RandomStringUtils.random(10, true, true))
-                        .role(ADMIN)
-                        .build()))
+        mockMvc.perform(
+                    post("/auth/register")
+                            .with(SecurityMockMvcRequestPostProcessors.user("Admin").roles("ADMIN"))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(RegisterRequest.builder()
+                                    .firstname(RandomStringUtils.random(8, true, false))
+                                    .lastname(RandomStringUtils.random(10, true, false))
+                                    .email(RandomStringUtils.random(15, true, true))
+                                    .password(RandomStringUtils.random(10, true, true))
+                                    .role(ADMIN)
+                                    .build()))
         ).andExpect(status().isOk());
     }
 }

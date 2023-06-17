@@ -35,7 +35,7 @@ public interface RailwayController {
                     )
             )
     )
-    ResponseEntity<List<Railway>> getAllStationModels();
+    ResponseEntity<List<Railway>> getAllRailways();
 
     @Operation(
             summary = "Поиск конкретной записи",
@@ -51,7 +51,7 @@ public interface RailwayController {
                     )
             )
     )
-    ResponseEntity<Railway> getStationModel(
+    ResponseEntity<Railway> getRailway(
             @PathVariable
             @Min(0)
             @Parameter(description = "Идентификатор")
@@ -72,7 +72,7 @@ public interface RailwayController {
                     )
             )
     )
-    ResponseEntity<Railway> createStationModel(
+    ResponseEntity<Railway> createRailway(
             @RequestBody
             @Validated
             @Parameter(description = "Сущность")
@@ -93,7 +93,7 @@ public interface RailwayController {
                     )
             )
     )
-    ResponseEntity<Railway> updateStationModel(
+    ResponseEntity<Railway> updateRailway(
             @RequestBody
             @Validated
             @Parameter(description = "Сущность")
@@ -118,7 +118,7 @@ public interface RailwayController {
                     )
             )
     )
-    ResponseEntity<Railway> deleteStationModel(
+    ResponseEntity<Railway> deleteRailway(
             @PathVariable
             @Min(0)
             @Parameter(description = "Идентификатор")

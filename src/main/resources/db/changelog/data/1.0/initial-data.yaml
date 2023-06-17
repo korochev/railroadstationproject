@@ -1,0 +1,326 @@
+databaseChangeLog:
+- changeSet:
+    id: 1686957458113-1
+    author: Administrator (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: railway_pkey
+            name: id
+            startWith: 2
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: nom
+            type: INTEGER
+        - column:
+            name: station_model_id
+            type: BIGINT
+        tableName: railway
+- changeSet:
+    id: 1686957458113-2
+    author: Administrator (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: station_model_pkey
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(255)
+        tableName: station_model
+- changeSet:
+    id: 1686957458113-3
+    author: Administrator (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: token_pkey
+            name: id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: expired
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: revoked
+            type: BOOLEAN
+        - column:
+            name: token
+            type: VARCHAR(255)
+        - column:
+            name: token_type
+            type: VARCHAR(255)
+        - column:
+            name: user_id
+            type: INTEGER
+        tableName: token
+- changeSet:
+    id: 1686957458113-4
+    author: Administrator (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: token
+        constraintName: uk_pddrhgwxnms2aceeku9s2ewy5
+        tableName: token
+- changeSet:
+    id: 1686957458113-5
+    author: Administrator (generated)
+    changes:
+    - createSequence:
+        cacheSize: 1
+        cycle: false
+        dataType: bigint
+        incrementBy: 50
+        maxValue: 9223372036854775807
+        minValue: 1
+        sequenceName: _user_seq
+        startValue: 1
+- changeSet:
+    id: 1686957458113-6
+    author: Administrator (generated)
+    changes:
+    - createSequence:
+        cacheSize: 1
+        cycle: false
+        dataType: bigint
+        incrementBy: 50
+        maxValue: 9223372036854775807
+        minValue: 1
+        sequenceName: token_seq
+        startValue: 1
+- changeSet:
+    id: 1686957458113-7
+    author: Administrator (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: _user_pkey
+            name: id
+            type: INTEGER
+        - column:
+            name: email
+            type: VARCHAR(255)
+        - column:
+            name: firstname
+            type: VARCHAR(255)
+        - column:
+            name: lastname
+            type: VARCHAR(255)
+        - column:
+            name: password
+            type: VARCHAR(255)
+        - column:
+            name: role
+            type: VARCHAR(255)
+        tableName: _user
+- changeSet:
+    id: 1686957458113-8
+    author: Administrator (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: cargo_model_pkey
+            name: code
+            type: VARCHAR(6)
+        - column:
+            name: name
+            type: VARCHAR(255)
+        tableName: cargo_model
+- changeSet:
+    id: 1686957458113-9
+    author: Administrator (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: wagon_model_pkey
+            name: number
+            type: VARCHAR(8)
+        - column:
+            name: tare_weight
+            type: FLOAT8
+        - column:
+            constraints:
+              nullable: false
+            name: tonnage
+            type: FLOAT8
+        - column:
+            constraints:
+              nullable: false
+            name: type
+            type: SMALLINT
+        tableName: wagon_model
+- changeSet:
+    id: 1686957458113-10
+    author: Administrator (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: wagon_park_pkey
+            name: number
+            type: VARCHAR(8)
+        - column:
+            name: cargo_weight
+            type: FLOAT8
+        - column:
+            name: exploitation
+            type: BOOLEAN
+        - column:
+            name: order_column
+            type: INTEGER
+        - column:
+            name: weight
+            type: FLOAT8
+        - column:
+            name: railway_id
+            type: BIGINT
+        tableName: wagon_park
+- changeSet:
+    id: 1686957458113-11
+    author: Administrator (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: wagons_cargo-model_pkey
+            name: wagons_id
+            type: VARCHAR(8)
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: wagons_cargo-model_pkey
+            name: cargo-model_id
+            type: VARCHAR(6)
+        tableName: wagons_cargo-model
+- changeSet:
+    id: 1686957458113-12
+    author: Administrator (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: cargo-model_id
+        baseTableName: wagons_cargo-model
+        constraintName: fk80xq8b1fgk7xk897wgl72hf9j
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: code
+        referencedTableName: cargo_model
+        validate: true
+- changeSet:
+    id: 1686957458113-13
+    author: Administrator (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: wagons_id
+        baseTableName: wagons_cargo-model
+        constraintName: fken10bjpe2fl9yqywlnoe0kbak
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: number
+        referencedTableName: wagon_park
+        validate: true
+- changeSet:
+    id: 1686957458113-14
+    author: Administrator (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: token
+        constraintName: fkiblu4cjwvyntq3ugo31klp1c6
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: _user
+        validate: true
+- changeSet:
+    id: 1686957458113-15
+    author: Administrator (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: number
+        baseTableName: wagon_park
+        constraintName: fkkc6771pi0xauoxl19h924on30
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: number
+        referencedTableName: wagon_model
+        validate: true
+- changeSet:
+    id: 1686957458113-16
+    author: Administrator (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: railway_id
+        baseTableName: wagon_park
+        constraintName: fklxxnpie2po8u6w6qk0esjfml7
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: railway
+        validate: true
+- changeSet:
+    id: 1686957458113-17
+    author: Administrator (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: station_model_id
+        baseTableName: railway
+        constraintName: fkmcmekajxxk4lpqybpby6f2kvr
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: station_model
+        validate: true
+

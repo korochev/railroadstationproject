@@ -40,7 +40,6 @@ public class CargoModelService {
     }
 
     public CargoModel saveCargoModel(CargoModel cargoModel) {
-        log.info("error will be thrown here");
         return cargoModelDAO.save(cargoModel);
     }
 }

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 import org.apache.commons.lang3.builder.HashCodeExclude;
@@ -20,6 +22,10 @@ import java.util.Set;
 @NoArgsConstructor
 public class WagonPark {
     @Id
+    @Schema(description = "Номер вагона", example = "07722556")
+    @Column(length = 8)
+    @Pattern(regexp="^\\d{8}$", message="length must be 8")
+    @NotNull
     private String number;
 
     @Schema(description = "Сущность характеристик вагона")
@@ -35,7 +41,7 @@ public class WagonPark {
             inverseJoinColumns = @JoinColumn(name = "cargo-model_id"))
     private Set<CargoModel> cargoModelId;
 
-    @Schema(description = "Сущность ЖД путеей")
+    @Schema(hidden = true)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "railway_id")
     @JsonBackReference
